@@ -7,13 +7,15 @@ namespace lab1
     {
         public static void Main(string[] args)
         {
-            Debug(GeneratePseudoRandomNumbers(10, 1234));
-            Debug(GeneratePseudoRandomNumbers(10, 1234));
-            Debug(GeneratePseudoRandomNumbers(10, 1241414));
-            Debug(GeneratePseudoRandomNumbers(10));
+            PrintArray(GeneratePseudoRandomNumbers(10), "without seed");
+            
+            PrintArray(GeneratePseudoRandomNumbers(10, 1234), "with seed 1234");
+            PrintArray(GeneratePseudoRandomNumbers(10, 1234), "with seed 1234");
 
-            Debug(GenerateRandomNumber(10));
-            Debug(GenerateRandomNumber(10));
+            PrintArray(GeneratePseudoRandomNumbers(10, 1241414), "with seed 1241414");
+
+            PrintArray(GenerateRandomNumber(10));
+            PrintArray(GenerateRandomNumber(10));
         }
 
         private static int[] GeneratePseudoRandomNumbers(int count, int? seed = null)
@@ -38,26 +40,14 @@ namespace lab1
             return randomNumber;
         }
 
-        private static void Debug(int[] numbs)
+        private static void PrintArray<T>(T[] elArray, string endMessage = "")
         {
-            foreach (int num in numbs)
+            foreach (T el in elArray)
             {
-                Console.Write("{0,5}", $"{num} ");
+                Console.Write("{0,5}", $"{el} ");
             }
 
-            Console.WriteLine();
+            Console.WriteLine(endMessage);
         }
-
-        private static void Debug(byte[] numbs)
-        {
-            foreach (byte num in numbs)
-            {
-                Console.Write("{0,5}", $"{num} ");
-            }
-
-            Console.WriteLine();
-
-        }
-
     }
 }
