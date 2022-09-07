@@ -1,3 +1,3 @@
-# ib-2course
+# Основи інформаційної безпеки
 
 [Звіт для лабороторної роботы 1](https://github.com/anton-babych/ib-2course/edit/master/README.md)
