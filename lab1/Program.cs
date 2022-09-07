@@ -10,23 +10,20 @@ namespace lab1
             Debug(GeneratePseudoRandomNumbers(10, 1234));
             Debug(GeneratePseudoRandomNumbers(10, 1234));
             Debug(GeneratePseudoRandomNumbers(10, 1241414));
-            Debug(GeneratePseudoRandomNumbers(10, null));
+            Debug(GeneratePseudoRandomNumbers(10));
 
             Debug(GenerateRandomNumber(10));
             Debug(GenerateRandomNumber(10));
         }
 
-        private static int[] GeneratePseudoRandomNumbers(int count, int? seed)
+        private static int[] GeneratePseudoRandomNumbers(int count, int? seed = null)
         {
+            Random rnd = seed == null ? new Random() : new Random(seed.Value);
+            
             int[] numbers = new int[count];
 
-            Random rnd = seed == null ? new Random() : new Random(seed.Value);
-
-            for (int i = 0; i < count; i++)
-            {
-                var num = rnd.Next(-10, 11);
-                numbers[i] = num;
-            }
+            for (int i = 0; i < count; i++) 
+                numbers[i] = rnd.Next(1, 256);
 
             return numbers;
         }
