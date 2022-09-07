@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Security.Cryptography;
 
-namespace Ib_2kurs
+namespace lab1
 {
     public static class Program
     {
