@@ -18,15 +18,23 @@ namespace lab3
             Console.WriteLine(format);
             Console.WriteLine(ComputeGuid(computeHashMd5));*/
 
-            var combs2 = Extension.GetCombinationsAndPerm("0123456789", 8, false);
+            Test test = new Test("0123456789".ToCharArray(), 
+                8,
+                8, 
+                Guid.Parse("564c8da6-0440-88ec-d453-0bbad57c6036"));
+            
+            Test.TestA();
+            
+            /*var combs2 = Extension.GetCombinationsAndPerm("0123456789", 8, false);
             
             if(TryFindPasswordFromCombiantions(combs2, out var password)) 
-                Console.WriteLine($"Found: password is {password}");
+                Console.WriteLine($"Found: password is {password}");*/
         }
 
         private static bool TryFindPasswordFromCombiantions(List<string> combs, out string password)
         {
-            Guid guidToFind = Guid.Parse("564c8da6-0440-88ec-d453-0bbad57c6036");
+            //Guid guidToFind = Guid.Parse("564c8da6-0440-88ec-d453-0bbad57c6036");
+            Guid guidToFind = Hashing.ComputeGuid(Hashing.ComputeHashMd5("81539240"));
             
             password = "";
             foreach (var comb in combs)
@@ -34,9 +42,9 @@ namespace lab3
                 //int.TryParse(comb, out var num);
                 //var myGuid = ComputeGuid(ComputeHashMd5(BitConverter.GetBytes(num)));
                 
-                var myGuid = ComputeGuid(ComputeHashMd5(comb));
+                var myGuid = Hashing.ComputeGuid(Hashing.ComputeHashMd5(comb));
                 
-                Console.WriteLine($"{myGuid} {myGuid == guidToFind} {guidToFind}");
+                //Console.WriteLine($"{myGuid} {myGuid == guidToFind} {guidToFind}");
                 
                 if (myGuid != guidToFind) continue;
                 password = comb;
@@ -48,21 +56,6 @@ namespace lab3
             return false;
         }
 
-        static byte[] ComputeHashMd5(byte[] dataForHash) => 
-            MD5.Create().ComputeHash(dataForHash);
 
-        static byte[] ComputeHashMd5(string str) => 
-            MD5.Create().ComputeHash(Encoding.Unicode.GetBytes(str));
-
-        static Guid ComputeGuid(byte[] hash) =>
-            new Guid(hash);
-        
-        public static byte[] ComputeHashSha256(byte[] toBeHashed) => 
-            SHA256.Create().ComputeHash(toBeHashed);
-        
-        public static byte[] ComputeHmacsha1(byte[] toBeHashed, byte[] key) => 
-            new HMACSHA1(key).ComputeHash(toBeHashed);
-        
-        
     }
 }
