@@ -4,7 +4,7 @@ using System.Diagnostics;
 
 namespace lab2
 {
-    public static class Extension
+    public static class CombAndPerm
     {
         public static void GetPer(string str, out List<string> combinations)
         {
@@ -73,12 +73,12 @@ namespace lab2
         
         public static List<string> GetCombinationsAndPerm(string allSymbols, int length, bool isDebug = true)
         {
-            var combinations = Extension.GetCombinations(allSymbols, length);
+            var combinations = CombAndPerm.GetCombinations(allSymbols, length);
             List<string> st = new List<string>();
 
             foreach (var comb in combinations)
             {
-                Extension.GetPer(comb, out List<string> pers);
+                CombAndPerm.GetPer(comb, out List<string> pers);
                 foreach (var per in pers)
                 {
                     if(isDebug)Console.WriteLine(per);

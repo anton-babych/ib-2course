@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Security.Cryptography;
 using System.Text;
 using lab1;
@@ -11,51 +12,120 @@ namespace lab3
     {
         public static void Main(string[] args)
         {
-            /*byte[] computeHashMd5 = ComputeHashMd5("01234567");
-            string format = Convert.ToBase64String(computeHashMd5);
-            Console.WriteLine("6Ts6DTbarv+YS+RM8JbiNg==" == format);
-            //byte[] bytes = Encoding.Unicode.GetBytes(format);
-            Console.WriteLine(format);
-            Console.WriteLine(ComputeGuid(computeHashMd5));*/
-
-            Test test = new Test("0123456789".ToCharArray(), 
-                8,
-                8, 
-                Guid.Parse("564c8da6-0440-88ec-d453-0bbad57c6036"));
             
-            Test.TestA();
+            Task2();
+            Task3();
+            Task4();
             
-            /*var combs2 = Extension.GetCombinationsAndPerm("0123456789", 8, false);
-            
-            if(TryFindPasswordFromCombiantions(combs2, out var password)) 
-                Console.WriteLine($"Found: password is {password}");*/
         }
 
-        private static bool TryFindPasswordFromCombiantions(List<string> combs, out string password)
+        private static void Task2()
         {
-            //Guid guidToFind = Guid.Parse("564c8da6-0440-88ec-d453-0bbad57c6036");
-            Guid guidToFind = Hashing.ComputeGuid(Hashing.ComputeHashMd5("81539240"));
+            Test test = new Test("0123456789".ToCharArray(),
+                8,
+                8,
+                Guid.Parse("564c8da6-0440-88ec-d453-0bbad57c6036"));
+
+            Test.Do();
+        }
+
+        private static void Task3()
+        {
+            //byte[] secretkey = new Byte[64];
+            //new RNGCryptoServiceProvider().GetBytes(secretkey);
+
+            byte[] secretkey = Encoding.UTF8.GetBytes(RandomNumbersGenerator.GenerateRandomString(10));
+
+            string inputMessage = "kakoe to message";
+
+            SignMessage(secretkey, inputMessage, out var signedMessage);
             
-            password = "";
-            foreach (var comb in combs)
+            VerifyMassage(secretkey, inputMessage, signedMessage);
+        }
+
+        public static void SignMessage(byte[] key, string message, out byte[] s) => 
+            s = new HMACSHA256(key).ComputeHash(Encoding.UTF8.GetBytes(message));
+
+        public static void VerifyMassage(byte[] key, string message, byte[] signed)
+        {
+            bool err = false;
+            byte[] computedHash = new HMACSHA256(key).ComputeHash(Encoding.UTF8.GetBytes(message));
+
+            for (int i = 0; i < signed.Length; i++)
             {
-                //int.TryParse(comb, out var num);
-                //var myGuid = ComputeGuid(ComputeHashMd5(BitConverter.GetBytes(num)));
-                
-                var myGuid = Hashing.ComputeGuid(Hashing.ComputeHashMd5(comb));
-                
-                //Console.WriteLine($"{myGuid} {myGuid == guidToFind} {guidToFind}");
-                
-                if (myGuid != guidToFind) continue;
-                password = comb;
-                
-                return true;
+                Console.WriteLine($"computer {computedHash[i]} signed {signed[i]}");
+                if (computedHash[i] != signed[i])
+                {
+                    err = true;
+                }
             }
 
-            Console.WriteLine("not found");
-            return false;
+            if (err)
+            {
+                Console.WriteLine("diff");
+            }
+            else
+            {
+                Console.WriteLine("same");
+            }
         }
 
+        private static void Task4()
+        {
+            var user1 = new User("anton", "12345");
+            user1.TryLogin("anton", "12345");
+            
+            var user2 = new User("chel", "15151");
+            user2.TryLogin("necafqa", "15151");
+        }
+        
+        private class User
+        {
+            private byte[] _password;
+            private byte[] _login;
+            private byte[] _key = new Byte[64];
+            
+            public User(string login, string password)
+            {
+                GenerateKey();
+                
+                _login = DoHMAC(_key, login);
+                _password = DoHMAC(_key, password);
+            }
 
+            public bool TryLogin(string login, string password)
+            {
+                var tempLogin = DoHMAC(_key, login);
+                var tempPassword = DoHMAC(_key, password);
+                
+                for (int i = 0; i < tempLogin.Length; i++)
+                {
+                    if (tempLogin[i] != _login[i])
+                    {
+                        Console.WriteLine($"fail to login: login {login} is incorrect");
+                        return false;
+                    }
+                }
+                
+                for (int i = 0; i < tempPassword.Length; i++)
+                {
+                    if (tempPassword[i] != _password[i])
+                    {
+                        Console.WriteLine($"fail to login: password {password} is incorrect");
+                        return false;
+                    }
+                }
+
+                Console.WriteLine("login succeed");
+                return true;
+            }
+            
+            private void GenerateKey() => 
+                new RNGCryptoServiceProvider().GetBytes(_key);
+
+            private byte[] DoHMAC(byte[] key, string input) => 
+                new HMACSHA256(key).ComputeHash(Encoding.UTF8.GetBytes(input));
+        }
+        
     }
 }

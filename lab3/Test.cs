@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 
 namespace lab3
@@ -26,7 +27,7 @@ namespace lab3
 
         private static Guid _guidToFind;
 
-        public static void TestA()
+        public static void Do()
         {
             var timeStarted = DateTime.Now;
             Console.WriteLine("Start BruteForce - {0}", timeStarted.ToString());
@@ -72,7 +73,7 @@ namespace lab3
                     string str = new String(keyChars);
                     var myGuid = Hashing.ComputeGuid(Hashing.ComputeHashMd5(str));
 
-                    //if (new String(keyChars) != password) continue;
+                    //Console.WriteLine(str);
                     
                     if (myGuid != _guidToFind) continue;
 

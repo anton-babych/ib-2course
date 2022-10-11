@@ -35,12 +35,12 @@ namespace lab2
 
         public static List<string> GetCombinations(string allSymbols, int length)
         {
-            var combinations = Extension.GetCombinationsAndPerm(allSymbols, length);
+            var combinations = CombAndPerm.GetCombinationsAndPerm(allSymbols, length);
             List<string> st = new List<string>();
 
             foreach (var comb in combinations)
             {
-                Extension.GetPer(comb, out List<string> pers);
+                CombAndPerm.GetPer(comb, out List<string> pers);
                 foreach (var per in pers)
                 {
                     Console.WriteLine(per);

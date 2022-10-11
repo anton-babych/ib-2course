@@ -69,5 +69,22 @@ namespace lab1
 
             return res.ToString();
         }
+        
+        public static byte[] GenerateRandomBytes(int length)
+        {
+            StringBuilder res = new StringBuilder();
+            RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
+            
+            byte[] uintBuffer = new byte[sizeof(uint)];
+
+            while (length-- > 0)
+            {
+                rng.GetBytes(uintBuffer);
+                uint num = BitConverter.ToUInt32(uintBuffer, 0);
+                res.Append(Symbols[(int) (num % (uint) Symbols.Length)]);
+            }
+
+            return uintBuffer;
+        }
     }
 }
