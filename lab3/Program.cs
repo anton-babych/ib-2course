@@ -31,10 +31,7 @@ namespace lab3
 
         private static void Task3()
         {
-            //byte[] secretkey = new Byte[64];
-            //new RNGCryptoServiceProvider().GetBytes(secretkey);
-
-            byte[] secretkey = Encoding.UTF8.GetBytes(RandomNumbersGenerator.GenerateRandomString(10));
+            byte[] secretkey = RandomNumbersGenerator.GenerateRandomBytes(64);
 
             string inputMessage = "kakoe to message";
 

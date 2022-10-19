@@ -15,8 +15,17 @@ namespace lab3
         public static Guid ComputeGuid(byte[] hash) =>
             new Guid(hash);
         
+        public static byte[] ComputeHashSha1(byte[] toBeHashed) => 
+            SHA1.Create().ComputeHash(toBeHashed);
+        
         public static byte[] ComputeHashSha256(byte[] toBeHashed) => 
             SHA256.Create().ComputeHash(toBeHashed);
+        
+        public static byte[] ComputeHashSha384(byte[] toBeHashed) => 
+            SHA384.Create().ComputeHash(toBeHashed);
+        
+        public static byte[] ComputeHashSha512(byte[] toBeHashed) => 
+            SHA512.Create().ComputeHash(toBeHashed);
         
         public static byte[] ComputeHmacsha1(byte[] toBeHashed, byte[] key) => 
             new HMACSHA1(key).ComputeHash(toBeHashed);
