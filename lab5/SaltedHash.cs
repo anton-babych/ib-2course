@@ -7,21 +7,32 @@ namespace lab4
 {
     public class SaltedHash
     {
-        private readonly byte[] _result;
+        private readonly string _password;
+        
+        private byte[] _result;
 
         public SaltedHash(string password)
         {
-            var text = Encoding.UTF8.GetBytes(password);
-            Console.WriteLine("pasword is: " + password);
+            _password = password;
+        }
+
+        public SaltedHash()
+        {
+            
+        }
+        public byte[] DoSalt()
+        {
+            var text = Encoding.UTF8.GetBytes(_password);
+            Console.WriteLine("pasword is: " + _password);
             
             var salt = GenerateSalt();
             Console.WriteLine("salt is: " + Convert.ToBase64String(salt));
 
             _result = HashPasswordWithSalt(text, salt);
             Console.WriteLine("result is: " + Convert.ToBase64String(_result));
-        }
 
-        public byte[] GetResult() => _result;
+            return _result;
+        }
 
         private byte[] HashPasswordWithSalt(byte[] toBeHashed, byte[] salt) => 
             SHA256.Create().ComputeHash(Combine(toBeHashed, salt));
@@ -34,7 +45,7 @@ namespace lab4
             return ret;
         }
 
-        private byte[] GenerateSalt() => 
-            RandomNumbersGenerator.GenerateRandomBytes(256);
+        public byte[] GenerateSalt() => 
+            RandomNumbersGenerator.GenerateRandomBytes(32);
     }
 }
