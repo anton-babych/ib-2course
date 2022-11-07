@@ -21,18 +21,6 @@ namespace lab6
             _name = name;
         }
 
-        public byte[] GenerateRandomNumber(int length)
-        {
-            var randomNumberGenerator = new RNGCryptoServiceProvider();
-            
-            using (randomNumberGenerator)
-            {
-                var randomNumber = new byte[length];
-                randomNumberGenerator.GetBytes(randomNumber);
-                return randomNumber;
-            }
-        }
-
         public byte[] Encrypt(byte[] dataToEncrypt, byte[] key, byte[] iv)
         {
             SymmetricAlgorithm cr = GetCurrentAlgorithm();
@@ -46,11 +34,8 @@ namespace lab6
                 using (var memoryStream = new MemoryStream())
                 {
                     var cryptoStream =
-                        new CryptoStream(memoryStream,
-                            cr.CreateEncryptor(),
-                            CryptoStreamMode.Write);
-                    cryptoStream.Write(dataToEncrypt, 0,
-                        dataToEncrypt.Length);
+                        new CryptoStream(memoryStream, cr.CreateEncryptor(), CryptoStreamMode.Write);
+                    cryptoStream.Write(dataToEncrypt, 0, dataToEncrypt.Length);
                     cryptoStream.FlushFinalBlock();
                     return memoryStream.ToArray();
                 }
