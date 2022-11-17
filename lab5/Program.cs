@@ -3,80 +3,38 @@ using System.Security.Cryptography;
 using System.Text;
 using lab1;
 
-namespace lab4
+namespace lab6
 {
     internal class Program
     {
         public static void Main(string[] args)
         {
-            //Task3();
-            //Task4();
-            Task5();
+            Ex1();
         }
 
-        private static void Task3()
+        private static void Ex1()
         {
-            new SaltedHash("password").DoSalt();
+            Demonstrate("testing aes", SymmetricEncryption.CipherName.Aes, 32, 16);
+            Demonstrate("testing des", SymmetricEncryption.CipherName.Des, 8,8);
+            Demonstrate("testing triple des", SymmetricEncryption.CipherName.TripleDes, 16, 8);
         }
 
-        private static void Task4() => 
-            new PBKDF2(HashAlgorithmName.MD5).With(x => x.HashPassword("password", x.GenerateSalt()));
-
-        private static void Task5()
+        private static void Demonstrate(string testString, SymmetricEncryption.CipherName name, int keyLength, int ivLength)
         {
-            var user1 = new User("user1", "user12345");
-
-            user1.TryLoginAs("us", "usfagq");
-            user1.TryLoginAs("user1", "user12345");
-        }
-        
-        
-        private class User
-        {
-            private byte[] _password;
-            private byte[] _login;
-            private byte[] _key = new Byte[64];
+            var encryption = new SymmetricEncryption(name);
             
-            public User(string login, string password)
-            {
-                GenerateKey();
-                
-                _login = DoHMAC(_key, login);
-                _password = DoHMAC(_key, password);
-            }
-
-            public bool TryLoginAs(string login, string password)
-            {
-                var tempLogin = DoHMAC(_key, login);
-                var tempPassword = DoHMAC(_key, password);
-                
-                for (int i = 0; i < tempLogin.Length; i++)
-                {
-                    if (tempLogin[i] != _login[i])
-                    {
-                        Console.WriteLine($"fail to login: login {login} is incorrect");
-                        return false;
-                    }
-                }
-                
-                for (int i = 0; i < tempPassword.Length; i++)
-                {
-                    if (tempPassword[i] != _password[i])
-                    {
-                        Console.WriteLine($"fail to login: password {password} is incorrect");
-                        return false;
-                    }
-                }
-
-                Console.WriteLine("login succeed");
-                return true;
-            }
+            var key = RandomNumbersGenerator.GenerateRandomNumber(keyLength);
+            var iv = RandomNumbersGenerator.GenerateRandomNumber(ivLength);
             
-            private void GenerateKey() => 
-                new RNGCryptoServiceProvider().GetBytes(_key);
-
-            private byte[] DoHMAC(byte[] key, string input) => 
-                new HMACSHA256(key).ComputeHash(Encoding.UTF8.GetBytes(input));
+            var encrypted = encryption.Encrypt(Encoding.UTF8.GetBytes(testString), key, iv);
+            var decrypted = encryption.Decrypt(encrypted, key, iv);
+            
+            var decryptedMessage = Encoding.UTF8.GetString(decrypted);
+            
+            Console.WriteLine($"\n{name} Demonstration");
+            Console.WriteLine($"Original Text: {testString}");
+            Console.WriteLine($"Encrypted Text: {Convert.ToBase64String(encrypted)}");
+            Console.WriteLine($"Decrypted Text: {decryptedMessage}");
         }
     }
 }

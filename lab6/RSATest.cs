@@ -30,7 +30,7 @@ namespace lab7
             }
         }
 
-        public void AssignNewKey(string publicKeyPath, string privateKeyPath)
+        public void AssignNewKeyInContainer(string publicKeyPath, string privateKeyPath)
         {
             CspParameters cspParameters = new CspParameters(1)
             {
@@ -38,12 +38,12 @@ namespace lab7
                 Flags = CspProviderFlags.UseMachineKeyStore,
                 ProviderName = "Microsoft Strong Cryptographic Provider"
             };
-            var rsa = new RSACryptoServiceProvider(cspParameters)
+            using(var rsa = new RSACryptoServiceProvider(2048, cspParameters))
             {
-                PersistKeyInCsp = true
-            };
+                rsa.PersistKeyInCsp = true;
+                File.WriteAllText(publicKeyPath, rsa.ToXmlString(false));
+            }
             
-            File.WriteAllText(publicKeyPath, rsa.ToXmlString(false));
         }
 
         public byte[] EncryptFromMemory(byte[] data) => 
