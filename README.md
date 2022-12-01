@@ -16,7 +16,7 @@
 [Звіт](https://docs.google.com/document/d/19tMZT9lTVM1M4Ky-3qyakZjVYn13jYvn_6nYtcftLnU/edit?usp=sharing)
 
 [Лабораторна робота 7-8](https://github.com/anton-babych/ib-2course/tree/master/lab7-8) :: 
-[Звіт]()
+[Звіт]() в процесі
 
 [Лабораторна робота 9-10](https://github.com/anton-babych/ib-2course/tree/master/lab9-10) :: 
 [Звіт](https://github.com/anton-babych/ib-2course/blob/master/lab9-10/zvit9-10.docx)
