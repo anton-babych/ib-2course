@@ -8,13 +8,19 @@
 [Звіт]() в процесі
 
 
-[Лабораторна робота 3-4](https://github.com/anton-babych/ib-2course/tree/master/lab34) ::
+[Лабораторна робота 3-4](https://github.com/anton-babych/ib-2course/tree/master/lab3) ::
 [Звіт]() в процесі
 
 
-[Лабораторна робота 5](https://github.com/anton-babych/ib-2course/tree/master/lab5) :: 
+[Лабораторна робота 5](https://github.com/anton-babych/ib-2course/tree/master/lab4) :: 
 [Звіт]() в процесі
 
 
-[Лабораторна робота 6](https://github.com/anton-babych/ib-2course/tree/master/lab6) :: 
+[Лабораторна робота 6](https://github.com/anton-babych/ib-2course/tree/master/lab5) :: 
 [Звіт](https://docs.google.com/document/d/19tMZT9lTVM1M4Ky-3qyakZjVYn13jYvn_6nYtcftLnU/edit?usp=sharing)
+
+[Лабораторна робота 7-8](https://github.com/anton-babych/ib-2course/tree/master/lab6) :: 
+[Звіт]()
+
+[Лабораторна робота 9-10](https://github.com/anton-babych/ib-2course/tree/master/lab7) :: 
+[Звіт]()
