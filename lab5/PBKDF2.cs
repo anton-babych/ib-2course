@@ -26,15 +26,9 @@ namespace lab4
             return randomNumber;
         }
 
-        private byte[] HashPassword(byte[] toBeHashed,
+        public static byte[] HashPassword(byte[] toBeHashed,
             byte[] salt, Int32 numberOfRounds)
         {
-
-            //using (var rfc2898 = new Rfc2898DeriveBytes(toBeHashed, salt, numberOfRounds, _algorithm))
-            //{
-                //return rfc2898.GetBytes(20);
-            //}
-            
             using (var rfc2898 = new Rfc2898DeriveBytes(toBeHashed, salt, numberOfRounds))
             {
                 return rfc2898.GetBytes(20);
@@ -42,7 +36,7 @@ namespace lab4
         }
 
         [SuppressMessage("ReSharper.DPA", "DPA0002: Excessive memory allocations in SOH", MessageId = "type: System.Byte[]")]
-        public byte[] HashPassword(string passwordToHash, byte[] salt, int times = 10, int interactionCount = 10000, int step = 50000)
+        public byte[] HashPasswordWithTimes(string passwordToHash, byte[] salt, int times = 10, int interactionCount = 10000, int step = 50000)
         {
             byte[] startString = Encoding.UTF8.GetBytes(passwordToHash);
             byte[] hashedPassword = startString;

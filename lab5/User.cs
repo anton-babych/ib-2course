@@ -26,7 +26,7 @@ namespace lab4
         private byte[] GenerateSalt(string password)
         {
             PBKDF2 x = new PBKDF2(HashAlgorithmName.MD5);
-            return x.HashPassword(password, _salt);
+            return x.HashPasswordWithTimes(password, _salt);
         }
 
         public bool TryLogin(string login, string password)
