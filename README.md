@@ -19,7 +19,7 @@
 [Звіт]()
 
 [Лабораторна робота 9-10](https://github.com/anton-babych/ib-2course/tree/master/lab9-10) :: 
-[Звіт]()
+[Звіт](https://github.com/anton-babych/ib-2course/blob/master/lab9-10/zvit9-10.docx)
 
 [Лабораторна робота 11-12](https://github.com/anton-babych/ib-2course/tree/master/lab11-12) :: 
-[Звіт]()
+[Звіт](https://github.com/anton-babych/ib-2course/blob/master/lab11-12/zvit11-12.docx)
