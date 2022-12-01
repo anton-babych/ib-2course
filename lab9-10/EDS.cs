@@ -17,6 +17,7 @@ namespace lab7
                 KeyContainerName = CspContainerName,
                 Flags = CspProviderFlags.UseMachineKeyStore
             };
+            using (var sha512 = SHA512.Create())
             using (var rsa = new RSACryptoServiceProvider(2048, cspParams))
             {
                 rsa.PersistKeyInCsp = true;
@@ -26,19 +27,17 @@ namespace lab7
                 
                 File.WriteAllText(publicKeyPath, rsa.ToXmlString(false));
                 
-                byte[] hashOfData;
-                using (var sha512 = SHA512.Create())
-                {
-                    hashOfData = sha512.ComputeHash(convertedMessage);
-                }
+                byte[] hashOfData = sha512.ComputeHash(convertedMessage);
+                
                 return rsaFormatter.CreateSignature(hashOfData);
             }
         }
 
-        public bool Compare(string publicKeyPath,
+        public bool Verify(string publicKeyPath,
             byte[] data,
             byte[] signature)
         {
+            using (var sha512 = SHA512.Create())
             using (var rsa = new RSACryptoServiceProvider(2048))
             {
                 rsa.PersistKeyInCsp = false;
@@ -47,11 +46,8 @@ namespace lab7
                 var rsaDeformatter = new RSAPKCS1SignatureDeformatter(rsa);
                 rsaDeformatter.SetHashAlgorithm(nameof(SHA512));
 
-                byte[] hashOfData;
-                using (var sha512 = SHA512.Create())
-                {
-                    hashOfData = sha512.ComputeHash(data);
-                }
+                byte[] hashOfData = sha512.ComputeHash(data);
+                
                 return rsaDeformatter.VerifySignature(hashOfData, signature);
             } 
         }
